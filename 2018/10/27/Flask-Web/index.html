@@ -15,7 +15,10 @@
 <meta property="og:description" content="Web应用程序的本质Web(World Wide Web)诞生最初的目的,是为了利用互联网交流工作文档  初识FlaskFlask是使用Python编写的Web微框架.Flask有两个主要依赖,一个是WSGI工具集–Werkzeug,另一个是Jinja2模板引擎.Flask只保留了Web开发的核心功能,其他的功能都又外部扩展来实现,比如数据库集成,表单认证,文件上传等.如果没有合适的扩展,你甚至可">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/10/27/Flask-Web/http_request.png">
-<meta property="og:updated_time" content="2018-10-27T15:06:18.588Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/27/Flask-Web/Flask路由实现代码结构.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/27/Flask-Web/2018-10-28%2016-50-21屏幕截图.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/27/Flask-Web/初始化相关参数.png">
+<meta property="og:updated_time" content="2018-10-28T10:40:58.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask Web">
 <meta name="twitter:description" content="Web应用程序的本质Web(World Wide Web)诞生最初的目的,是为了利用互联网交流工作文档  初识FlaskFlask是使用Python编写的Web微框架.Flask有两个主要依赖,一个是WSGI工具集–Werkzeug,另一个是Jinja2模板引擎.Flask只保留了Web开发的核心功能,其他的功能都又外部扩展来实现,比如数据库集成,表单认证,文件上传等.如果没有合适的扩展,你甚至可">
@@ -88,14 +91,132 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Web应用程序的本质"><a href="#Web应用程序的本质" class="headerlink" title="Web应用程序的本质"></a>Web应用程序的本质</h2><p>Web(World Wide Web)诞生最初的目的,是为了利用互联网交流工作文档</p>
+        <h4 id="Web应用程序的本质"><a href="#Web应用程序的本质" class="headerlink" title="Web应用程序的本质"></a>Web应用程序的本质</h4><p>Web(World Wide Web)诞生最初的目的,是为了利用互联网交流工作文档</p>
 <p><img src="http_request.png" alt=""></p>
 <h4 id="初识Flask"><a href="#初识Flask" class="headerlink" title="初识Flask"></a>初识Flask</h4><p>Flask是使用Python编写的Web微框架.Flask有两个主要依赖,一个是WSGI工具集–Werkzeug,另一个是Jinja2模板引擎.Flask只保留了Web开发的核心功能,其他的功能都又外部扩展来实现,比如数据库集成,表单认证,文件上传等.如果没有合适的扩展,你甚至可以自己动手开发.</p>
+<p><img src="/2018/10/27/Flask-Web/Flask路由实现代码结构.png" alt=""></p>
+<h4 id="1-1-搭建开发环境"><a href="#1-1-搭建开发环境" class="headerlink" title="1.1　搭建开发环境"></a>1.1　搭建开发环境</h4><h5 id="1-1-1-Pipenv工作流"><a href="#1-1-1-Pipenv工作流" class="headerlink" title="1.1.1　Pipenv工作流"></a>1.1.1　Pipenv工作流</h5><p>Pipenv是基于pip的Python包管理工具，它和pip的用法非常相似，可以看作pip的加强版，它的出现解决了旧的pip+virtualenv+requirements.txt的工作方式的弊端。具体来说，它是pip、Pipfile和Virtualenv的结合体，它让包安装、包依赖管理和虚拟环境管理更加方便，使用它可以实现高效的Python项目开发工作流</p>
+<p>1.使用pip安装pipenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo pip install pipenv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以使用下面的命令检查Pipenv是否已经安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; $ pipenv --version</span><br><span class="line">&gt; pipenv, version 2018.10.13</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>2.创建虚拟环境</p>
+<p>虚拟环境通常使用Virtualenv来创建，但是为了更方便地管理虚拟环境和依赖包，我们将会使用集成了Virtualenv的Pipenv。首先确保我们当前工作目录在示例程序项目的根目录，然后使用pipenv install命令为当前的项目创建虚拟环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ pipenv install</span><br><span class="line">Creating a virtualenv <span class="keyword">for</span> this project…</span><br><span class="line">...</span><br><span class="line">Virtualenv location: /path/to/virtualenv/helloflask-5Pa0ZfZw</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在Pipenv中，可以使用pipenv shell命令显式地激活虚拟环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; $ pipenv shell</span><br><span class="line">&gt; Loading .env environment variables…</span><br><span class="line">&gt; Launching subshell <span class="keyword">in</span> virtual environment. Type <span class="string">'exit'</span> to <span class="built_in">return</span>.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>3.管理依赖</p>
+<p>在创建虚拟环境时，如果项目根目录下没有Pipfile文件，pipenv install命令还会在项目文件夹根目录下创建Pipfile和Pipfile.lock文件，前者用来记录项目依赖包列表，而后者记录了固定版本的详细依赖包列表。当我们使用Pipenv安装/删除/更新依赖包时，Pipfile以及Pipfile.lock会自动更新</p>
+<blockquote>
+<p>你可以使用pipenv graph命令查看当前环境下的依赖情况，或是在虚拟环境中使用pip list命令查看依赖列表.<br>​    当需要在一个新的环境运行程序时，只需要执行pipenv install命令。Pipenv就会创建一个新的虚拟环境，然后自动从Pipfile中读取依赖并安装到新创建的虚拟环境中</p>
+</blockquote>
+<h5 id="1-1-2-安装Flask"><a href="#1-1-2-安装Flask" class="headerlink" title="1.1.2　安装Flask"></a>1.1.2　安装Flask</h5><p>下面使用pipenv install命令在我们刚刚创建的虚拟环境里安装Flask</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ pipenv install flask</span><br><span class="line">Installing flask...</span><br><span class="line">...</span><br><span class="line">Successfully installed Jinja2-2.10 MarkupSafe-1.0 Werkzeug-0.14.1 click-6.7 flask-1.0.2 itsdangerous-0.24</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Pipenv会自动帮我们管理虚拟环境，所以在执行pipenv install安装Python包时，无论是否激活虚拟环境，包都会安装到虚拟环境中。如果还在使用旧版本，可以使用下面的命令进行更新：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; $ pipenv update flask</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="1-2-Hello，Flask！"><a href="#1-2-Hello，Flask！" class="headerlink" title="1.2　Hello，Flask！"></a>1.2　Hello，Flask！</h4><h5 id="1-2-1-最小的Flask程序"><a href="#1-2-1-最小的Flask程序" class="headerlink" title="1.2.1    最小的Flask程序"></a>1.2.1    最小的Flask程序</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask </span><br><span class="line">app = Flask(__name__)  <span class="comment">#Flask函数接收一个参数__name__，它会指向程序所在的包</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')  # 装饰器的作用是将路由映射到视图函数 index</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello Flask!&lt;/h1&gt;'</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-2-2-创建程序实例"><a href="#1-2-2-创建程序实例" class="headerlink" title="1.2.2　创建程序实例"></a>1.2.2　创建程序实例</h5><p>我们先从flask包导入Flask类，这个类表示一个Flask程序。实例化这个类，就得到我们的程序实例app</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask </span><br><span class="line">app = Flask(__name__)  <span class="comment">#Flask函数接收一个参数__name__，它会指向程序所在的包</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-2-3-注册路由"><a href="#1-2-3-注册路由" class="headerlink" title="1.2.3　注册路由"></a>1.2.3　注册路由</h5><p>在一个Web应用里，客户端和服务器上的Flask程序的交互可以简单概括为以下几步：<br>​    1）用户在浏览器输入URL访问某个资源。<br>​    2）Flask接收用户请求并分析请求的URL。<br>​    3）为这个URL找到对应的处理函数。<br>​    4）执行函数并生成响应，返回给浏览器。<br>​    5）浏览器接收并解析响应，将信息显示在页面中。</p>
+<p>在上面这些步骤中，大部分都由Flask完成，我们要做的只是建立处理请求的函数，并为其定义对应的URL规则。只需为函数附加app.route()装饰器，并传入URL规则作为参数，我们就可以让URL与函数建立关联。这个过程我们称为注册路由（route），路由负责管理URL和函数之间的映射，而这个函数则被称为视图函数（view function）</p>
+<p>app.route()装饰器把根地址/和index()函数绑定起来，当用户访问这个URL时就会触发index()函数。这个视图函数可以像其他普通函数一样执行任意操作，比如从数据库中获取信息，获取请求信息，对用户输入的数据进行计算和处理等。最后，视图函数返回的值将作为响应的主体，一般来说，响应的主体就是呈现在浏览器窗口的HTML页面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/')  # 装饰器的作用是将路由映射到视图函数 index</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello Flask!&lt;/h1&gt;'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>1.为视图绑定多个URL</p>
+<p>一个视图函数可以绑定多个URL，用户访问这两个URL均会触发视图函数，获得相同的响应</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; @app.route(<span class="string">'/hi'</span>)</span><br><span class="line">&gt; @app.route(<span class="string">'/hello'</span>)</span><br><span class="line">&gt; <span class="function"><span class="keyword">def</span> <span class="title">say_hello</span><span class="params">()</span>:</span></span><br><span class="line">&gt;     <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, Flask!&lt;/h1&gt;'</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>2.动态URL</p>
+<p>我们不仅可以为视图函数绑定多个URL，还可以在URL规则中添加变量部分，使用“&lt;变量名&gt;”的形式表示。Flask处理请求时会把变量传入视图函数，所以我们可以添加参数获取这个变量值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; @app.route(<span class="string">'/greet/&lt;name&gt;'</span>)</span><br><span class="line">&gt; <span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(name)</span>:</span></span><br><span class="line">&gt;     <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, %s!&lt;/h1&gt;'</span> % name</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>因为URL中可以包含变量，所以我们将传入app.route()的字符串称为URL规则，而不是URL。Flask会解析请求并把请求的URL与视图函数的URL规则进行匹配。</p>
+<p>当URL规则中包含变量时，如果用户访问的URL中没有添加变量，比如/greet，那么Flask在匹配失败后会返回一个404错误响应。一个很常见的行为是在app.route()装饰器里使用defaults参数设置URL变量的默认值，这个参数接收字典作为输入，存储URL变量和默认值的映射。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; @app.route(<span class="string">'/greet'</span>, defaults=&#123;<span class="string">'name'</span>: <span class="string">'Programmer'</span>&#125;)</span><br><span class="line">&gt; @app.route(<span class="string">'/greet/&lt;name&gt;'</span>)</span><br><span class="line">&gt; <span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(name)</span>:</span></span><br><span class="line">&gt;     <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, %s!&lt;/h1&gt;'</span> % name</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>上面的用法实际效果等同于:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; @app.route(<span class="string">'/greet'</span>)</span><br><span class="line">&gt; @app.route(<span class="string">'/greet/&lt;name&gt;'</span>)</span><br><span class="line">&gt; <span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(name=<span class="string">'Programmer'</span>)</span>:</span></span><br><span class="line">&gt;     <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, %s!&lt;/h1&gt;'</span> % name</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>3.指定请求方式</p>
+<p>在 Flask 中，定义一个路由，默认的请求方式为：</p>
+<ul>
+<li>GET</li>
+<li>OPTIONS(自带)</li>
+<li>HEAD(自带)</li>
+</ul>
+<p>如果想添加请求方试，那么可以如下指定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; @app.route(&apos;/demo2&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">&gt; def demo2():</span><br><span class="line">&gt;     # 直接从请求中取到请求方式并返回</span><br><span class="line">&gt;     return request.method</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>4.正则匹配路由</p>
+<p>在 web 开发中，可能会出现限制用户访问规则的场景，那么这个时候就需要用到正则匹配，根据自己的规则去限定请求参数再进行访问</p>
+<p>具体实现步骤为：</p>
+<ul>
+<li>导入转换器基类：在 Flask 中，所有的路由的匹配规则都是使用转换器对象进行记录</li>
+<li>自定义转换器：自定义类继承于转换器基类</li>
+<li>添加转换器到默认的转换器字典中</li>
+<li>使用自定义转换器实现自定义匹配规则</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">&gt; <span class="comment">#导入转换器基类</span></span><br><span class="line">&gt; <span class="keyword">from</span> werkzeug.routing <span class="keyword">import</span> BaseConverter</span><br><span class="line">&gt; <span class="comment"># 自定义正则转换器</span></span><br><span class="line">&gt; <span class="class"><span class="keyword">class</span> <span class="title">RegexConverter</span><span class="params">(BaseConverter)</span>:</span></span><br><span class="line">&gt;     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url_map, *args)</span>:</span></span><br><span class="line">&gt;         super(RegexConverter, self).__init__(url_map)</span><br><span class="line">&gt;         <span class="comment"># 将接受的第1个参数当作匹配规则进行保存</span></span><br><span class="line">&gt;         self.regex = args[<span class="number">0</span>]</span><br><span class="line">&gt; <span class="comment"># 添加转换器到默认的转换器字典中，并指定转换器使用时名字为: re</span></span><br><span class="line">&gt; app = Flask(__name__)</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment"># 将自定义转换器添加到转换器字典中，并指定转换器使用时名字为: re</span></span><br><span class="line">&gt; app.url_map.converters[<span class="string">'re'</span>] = RegexConverter</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment"># 当前此处定义的规则是：3位数字</span></span><br><span class="line">&gt; @app.route(<span class="string">'/user/&lt;re("[0-9]&#123;3&#125;"):user_id&gt;'</span>)</span><br><span class="line">&gt; <span class="function"><span class="keyword">def</span> <span class="title">user_info</span><span class="params">(user_id)</span>:</span></span><br><span class="line">&gt;     <span class="keyword">return</span> <span class="string">"user_id 为 %s"</span> % user_id</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="1-3-启动开发服务"><a href="#1-3-启动开发服务" class="headerlink" title="1.3　启动开发服务"></a>1.3　启动开发服务</h4><h5 id="1-3-1-Run，Flask，Run！"><a href="#1-3-1-Run，Flask，Run！" class="headerlink" title="1.3.1　Run，Flask，Run！"></a>1.3.1　Run，Flask，Run！</h5><p>Flask通过依赖包Click内置了一个CLI（Command Line Interface，命令行交互界面）系统。当我们安装Flask后，会自动添加一个flask命令脚本，我们可以通过flask命令执行内置命令、扩展提供的命令或是我们自己定义的命令。其中，flask run命令用来启动内置的开发服务器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ flask run <span class="comment"># 启动内置的开发服务器</span></span><br><span class="line"> * Environment: production</span><br><span class="line">   WARNING: Do <span class="keyword">not</span> use the development server <span class="keyword">in</span> a production environment.</span><br><span class="line">   Use a production WSGI server instead.</span><br><span class="line"> * Debug mode: off</span><br><span class="line">     * Running on http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5000</span>/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>确保执行命令前激活了虚拟环境（pipenv shell），否则需要使用pipenv run flask run命令启动开发服务器。后面将不再提示。<br>​    你可以执行flask –help查看所有可用的命令</p>
+</blockquote>
+<p>一般来说，在执行flask run命令运行程序前，我们需要提供程序实例所在模块的位置，Flask会自动探测程序实例，自动探测存在下面这些规则：</p>
+<blockquote>
+<p>1.从当前目录寻找app.py和wsgi.py模块，并从中寻找名为app或application的程序实例。</p>
+<p>2.·从环境变量FLASK_APP对应的值寻找名为app或application的程序实例。</p>
+<p>3.如果安装了python-dotenv，那么在使用flask run或其他命令时会使用它自动从.flaskenv文件和.env文件中加载环境变量。</p>
+<p>当安装了python-dotenv时，Flask在加载环境变量的优先级是：手动设置的环境变量&gt;.env中设置的环境变量&gt;.flaskenv设置的环境变量。</p>
+</blockquote>
+<p>如果你的程序主模块是其他名称，比如hello.py，那么需要设置环境变量FLASK_APP，将包含程序实例的模块名赋值给这个变量，Linux或macOS系统使用<strong>export</strong>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> FLASK_APP=hello <span class="comment"># 设置程序实例的模块</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_ENV=development <span class="comment"># 开发者模式</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_ENV=production <span class="comment"># 生存模式</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_DEBUG=1 <span class="comment"># 开启调试器，重载器</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_DEBUG=0 <span class="comment"># 关闭调试器，重载器</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_RUN_HOST= <span class="comment"># 设置ip</span></span><br><span class="line">$ <span class="built_in">export</span> FLASK_RUN_PORT= <span class="comment"># 设置端口</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-3-2-更多的启动选项"><a href="#1-3-2-更多的启动选项" class="headerlink" title="1.3.2　更多的启动选项"></a>1.3.2　更多的启动选项</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ flask run --host=0.0.0.0</span><br><span class="line">$ flask run --port=8000</span><br></pre></td></tr></table></figure>
+<h5 id="1-3-3-使用pycharm服务器"><a href="#1-3-3-使用pycharm服务器" class="headerlink" title="1.3.3    使用pycharm服务器"></a>1.3.3    使用pycharm服务器</h5><p><img src="/2018/10/27/Flask-Web/2018-10-28 16-50-21屏幕截图.png" alt=""></p>
+<blockquote>
+<p>首先，在PyCharm中，单击菜单栏中的Run→Edit Configurations打开运行配置窗口</p>
+<p>打开新建配置窗口后，具体的步骤如下所示：</p>
+<ul>
+<li>步骤1　单击左侧的“+”符号打开下拉列表。</li>
+<li>步骤2　新建一个Python类型的运行配置（如果你使用的是专业版，则可以直接选择Flask server），并在右侧的Name字段输入一个合适的名称，比如“Run hello”。步骤3　勾选“Single instance only”。</li>
+<li>步骤4　将第一项配置字段通过下列选项选为“Module Name”。</li>
+<li>步骤5　填入模块名称flask。</li>
+<li>步骤6　第二栏的“Parameters”填入要执行的命令run，你也可以附加其他启动选项。</li>
+<li>步骤7　在“Working directory”字段中选择程序所在的目录作为工作目录。</li>
+</ul>
+</blockquote>
+<h5 id="1-4-Python-Shell"><a href="#1-4-Python-Shell" class="headerlink" title="1.4　Python Shell"></a>1.4　Python Shell</h5><p>在开发Flask程序时，我们并不会直接使用python命令启动Python Shell，而是使用flask shell命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ flask shell</span><br><span class="line">App: app [development]</span><br><span class="line">Instance: Path/to/your/helloflask/instance</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>使用flask shell命令打开的Python Shell自动包含程序上下文，并且已经导入了app实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>app</span><br><span class="line">&lt;Flask <span class="string">'app'</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>app.name</span><br><span class="line"> <span class="string">'app'</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-5-Flask扩展"><a href="#1-5-Flask扩展" class="headerlink" title="1.5　Flask扩展"></a>1.5　Flask扩展</h5><p>扩展（extension）即使用Flask提供的API接口编写的Python库，可以为Flask程序添加各种各样的功能。大部分Flask扩展用来集成其他库，作为Flask和其他库之间的薄薄一层胶水。因为Flask扩展的编写有一些约定，所以初始化的过程大致相似。大部分扩展都会提供一个扩展类，实例化这个类，并传入我们创建的程序实例app作为参数，即可完成初始化过程。通常，扩展会在传入的程序实例上注册一些处理函数，并加载一些配置。</p>
+<h5 id="1-6-URL与端点"><a href="#1-6-URL与端点" class="headerlink" title="1.6　URL与端点"></a>1.6　URL与端点</h5><p>调用url_for()函数时，第一个参数为端点（endpoint）值。在Flask中，端点用来标记一个视图函数以及对应的URL规则。端点的默认值为视图函数的名称，比如，下面的视图函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 路由传递参数</span></span><br><span class="line"><span class="meta">@app.route('/user/&lt;user_id&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">user_info</span><span class="params">(user_id)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello %d'</span> % user_id</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重定向</span></span><br><span class="line"><span class="meta">@app.route('/demo4')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo4</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 使用 url_for 生成指定视图函数所对应的 url</span></span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'user_info'</span>, user_id=<span class="number">100</span>))</span><br></pre></td></tr></table></figure>
+<h5 id="1-7-Flask命令"><a href="#1-7-Flask命令" class="headerlink" title="1.7　Flask命令"></a>1.7　Flask命令</h5><p>通过创建任意一个函数，并为其添加app.cli.command()装饰器，我们就可以注册一个flask命令。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.cli.command()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    click.echo(<span class="string">'Hello, Human!'</span>)</span><br></pre></td></tr></table></figure>
+<p>函数的名称即为命令名称，这里注册的命令即hello，你可以使用flask hello命令来触发函数。作为替代，你也可以在app.cli.command()装饰器中传入参数来设置命令名称，比如app.cli.command（’say-hello’）会把命令名称设置为say-hello，完整的命令即flask say-hello。<br>借助click模块的echo()函数，我们可以在命令行界面输出字符。命令函数的文档字符串则会作为帮助信息显示（flask hello –help）。在命令行下执行flask hello命令就会触发这个hello()函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ flask hello</span><br><span class="line">Hello, Human!</span><br></pre></td></tr></table></figure>
+<h5 id="1-8-模板与静态文件"><a href="#1-8-模板与静态文件" class="headerlink" title="1.8　模板与静态文件"></a>1.8　模板与静态文件</h5><p><img src="/2018/10/27/Flask-Web/初始化相关参数.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import_name</span><br><span class="line">Flask程序所在的包(模块)，传 __name__ 就可以</span><br><span class="line">其可以决定 Flask 在访问静态文件时查找的路径</span><br><span class="line">static_path</span><br><span class="line">静态文件访问路径(不推荐使用，使用 static_url_path 代替)</span><br><span class="line">static_url_path</span><br><span class="line">静态文件访问路径，可以不传，默认为：/ + static_folder</span><br><span class="line">static_folder</span><br><span class="line">静态文件存储的文件夹，可以不传，默认为 static</span><br><span class="line">template_folder</span><br><span class="line">模板文件存储的文件夹，可以不传，默认为 templates</span><br></pre></td></tr></table></figure>
+<p>一个完整的网站当然不能只返回用户一句“Hello，World！”，我们需要模板（template）和静态文件（static file）来生成更加丰富的网页。模板即包含程序页面的HTML文件，静态文件则是需要在HTML文件中加载的CSS和JavaScript文件，以及图片、字体文件等资源文件。默认情况下，模板文件存放在项目根目录中的templates文件夹中，静态文件存放在static文件夹下，这两个文件夹需要和包含程序实例的模块处于同一个目录下，对应的项目结构示例如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hello/</span><br><span class="line">    - templates/</span><br><span class="line">    - static/</span><br><span class="line">    - app.py</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/27/Flask-Web/" data-id="cjnrkrexx0000wrl77a5d41hi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/27/Flask-Web/" data-id="cjnrl004d0000xml7vgzv236i" class="article-share-link">Share</a>
       
       
     </footer>
