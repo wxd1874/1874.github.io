@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>flask与http | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.1请求响应循环每一个Web应用都包含这种处理模式，即“请求-响应循环（Request-Response Cycle）”：客户端发出请求，服务器端处理请求并返回响应。  Flask Web程序工作流程 当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask与http">
+<meta property="og:url" content="http://yoursite.com/2018/11/09/flask与http/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.1请求响应循环每一个Web应用都包含这种处理模式，即“请求-响应循环（Request-Response Cycle）”：客户端发出请求，服务器端处理请求并返回响应。  Flask Web程序工作流程 当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013637580.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013637637.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013637855.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013638286.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013638668.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013638702.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013638996.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/flask与http/1013639037.jpg">
+<meta property="og:updated_time" content="2018-11-09T14:58:25.665Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flask与http">
+<meta name="twitter:description" content="1.1请求响应循环每一个Web应用都包含这种处理模式，即“请求-响应循环（Request-Response Cycle）”：客户端发出请求，服务器端处理请求并返回响应。  Flask Web程序工作流程 当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/09/flask与http/1013637580.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-flask与http" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/09/flask与http/" class="article-date">
+  <time datetime="2018-11-09T14:43:18.000Z" itemprop="datePublished">2018-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flask与http
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-1请求响应循环"><a href="#1-1请求响应循环" class="headerlink" title="1.1请求响应循环"></a>1.1请求响应循环</h3><p>每一个Web应用都包含这种处理模式，即“请求-响应循环（Request-Response Cycle）”：客户端发出请求，服务器端处理请求并返回响应。</p>
+<p><img src="/2018/11/09/flask与http/1013637580.jpg" alt=""></p>
+<p>Flask Web程序工作流程</p>
+<p>当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python数据。在程序中，Flask根据请求的URL执行对应的视图函数，获取返回值生成响应。响应依次经过WSGI转换生成HTTP响应，再经由Web服务器传递，最终被发出请求的客户端接收。浏览器渲染响应中包含的HTML和CSS代码，并执行JavaScript代码，最终把解析后的页面呈现在用户浏览器的窗口中。</p>
+<p><img src="/2018/11/09/flask与http/1013637637.jpg" alt=""></p>
+<h3 id="1-2HTTP请求"><a href="#1-2HTTP请求" class="headerlink" title="1.2HTTP请求"></a>1.2HTTP请求</h3><p>URL是一个请求的起源。一个标准的URL有很多部分组成</p>
+<p><a href="http://helloflask.com/hello?name=Grey" target="_blank" rel="noopener">http://helloflask.com/hello?name=Grey</a></p>
+<ul>
+<li>http://    协议字符串，指定要使用的协议</li>
+<li>helloflask.com    服务器的地址（域名）</li>
+<li>/hello?name=Grey    要获取的资源的路径path，类似UNIX的文件目录结构</li>
+</ul>
+<blockquote>
+<p>这个URL后面的？name=Grey部分是查询字符串。URL中的查询字符串用来向指定的资源传递参数。查询字符串从问好？开始，以键值对的形式写出，多个键值对之间使用&amp;分隔。</p>
+</blockquote>
+<h4 id="1-2-1-请求报文"><a href="#1-2-1-请求报文" class="headerlink" title="1.2.1    请求报文"></a>1.2.1    请求报文</h4><p>请求的实质是发送到服务器上的一些数据，这种浏览器与服务器之间交互的数据被称为报文（message），请求时浏览器发送的数据被称为请求报文（request message），而服务器返回的数据被称为响应报文（response message）。<br>​    请求报文由请求的方法、URL、协议版本、首部字段（header）以及内容实体组成</p>
+<p><img src="/2018/11/09/flask与http/1013637855.jpg" alt=""></p>
+<p>报文由报文首部和报文主体组成，两者由空行分隔，请求报文的主体一般为空。如果URL中包含查询字符串，或是提交了表单，那么报文主体将会是查询字符串和表单数据。<br>HTTP通过方法来区分不同的请求类型。比如，当你直接访问一个页面时，请求的方法是GET；当你在某个页面填写了表单并提交时，请求方法则通常为POST。</p>
+<blockquote>
+<p>常见的HTTP请求方法</p>
+<ul>
+<li>GRT        获取资源</li>
+<li>POST    传输数据</li>
+<li>PUT         传送文件</li>
+<li>DELETE        删除资源</li>
+<li>HEAD        获得报文首部</li>
+<li>OPTIONS        询问支持的方法</li>
+</ul>
+</blockquote>
+<h4 id="1-2-2-Request对象"><a href="#1-2-2-Request对象" class="headerlink" title="1.2.2    Request对象"></a>1.2.2    Request对象</h4><p>请求报文中的信息都可以通过request对象提供的属性和方法获取</p>
+<ul>
+<li><strong>request</strong>：flask中代表当前请求的 <code>request 对象</code></li>
+<li><strong>作用</strong>：在视图函数中取出本次请求数据</li>
+<li><strong>导入</strong>：<code>from flask import request</code></li>
+</ul>
+<p>常用的属性如下：</p>
+<p><img src="/2018/11/09/flask与http/1013638286.jpg" alt=""></p>
+<p><code>Werkzeug的MutliDict类是字典的子类，它主要实现了同一个键对应多个值的情况。比如一个文件上传字段可能会接收多个文件。这时就可以通过getlist()方法来获取文件对象列表。而ImmutableMultiDict类继承了MutliDict类，但其值不可更改。</code></p>
+<p><strong>示例</strong></p>
+<ul>
+<li>获取请求中查询字符串</li>
+<li><code>http://127.0.0.1:5000/demo1?a=10</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/demo1')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">()</span>:</span></span><br><span class="line">    a = request.args.get(<span class="string">'a'</span>)</span><br><span class="line">    <span class="keyword">return</span>	<span class="string">'demo1 %s'</span>% a</span><br></pre></td></tr></table></figure>
+<p>需要注意，当我们从request对象的类型为MutliDict或ImmutableMultiDict的属性（比如files、form、args）中直接使用键作为索引获取数据时（比如request.args[‘name’]），如果没有对应的键，那么会返回HTTP 400错误响应（Bad Request，表示请求无效），而不是抛出KeyError异常。为了避免这个错误，我们应该使用get()方法获取数据，如果没有对应的值则返回None；get()方法的第二个参数可以设置默认值，比如requset.args.get（’name’，’Human’）。</p>
+<h4 id="1-2-3-在Flask中处理请求"><a href="#1-2-3-在Flask中处理请求" class="headerlink" title="1.2.3    在Flask中处理请求"></a>1.2.3    在Flask中处理请求</h4><p>1.路由匹配</p>
+<p>为了便于将请求分发到对应的视图函数，程序实例中存储了一个路由表（app.url_map），其中定义了URL规则和视图函数的映射关系。当请求发来后，Flask会根据请求报文中的URL（path部分）来尝试与这个表中的所有URL规则进行匹配，调用匹配成功的视图函数。如果没有找到匹配的URL规则，说明程序中没有处理这个URL的视图函数，Flask会自动返回404错误响应（Not Found，表示资源未找到）。</p>
+<p>当请求的URL与某个视图函数的URL规则匹配成功时，对应的视图函数就会被调用。使用<code>flask routes</code>命令可以查看程序中定义的所有路由，这个列表由app.url_map解析得到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ flask routes</span><br><span class="line">Endpoint  Methods  Rule</span><br><span class="line">--------  -------  -----------------------</span><br><span class="line">hello     GET      /hello</span><br><span class="line">go_back   GET      /goback/&lt;int:age&gt;</span><br><span class="line">hi        GET      /hi</span><br><span class="line">...</span><br><span class="line">static    GET      /static/&lt;path:filename&gt;</span><br></pre></td></tr></table></figure>
+<p>在输出的文本中，我们可以看到每个路由对应的端点（Endpoint）、HTTP方法（Methods）和URL规则（Rule），其中static端点是Flask添加的特殊路由，用来访问静态文件。</p>
+<p>2.设置监听的HTTP方法</p>
+<p>GET是最常用的HTTP方法，所以视图函数默认监听的方法类型就是GET，HEAD、OPTIONS方法的请求由Flask处理，而像DELETE、PUT等方法一般不会在程序中实现，在后面我们构建Web API时才会用到这些方法。<br>​    我们可以在app.route()装饰器中使用methods参数传入一个包含监听的HTTP方法的可迭代对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/hello', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, Flask!&lt;/h1&gt;'</span></span><br></pre></td></tr></table></figure>
+<p>3.URL处理</p>
+<p>URL中的变量部分默认类型为字符串，但Flask提供了一些转换器可以在URL规则里使用</p>
+<p><img src="/2018/11/09/flask与http/1013638668.jpg" alt=""></p>
+<p>转换器通过特定的规则指定，即“&lt;转换器：变量名&gt;”。&lt;int：year&gt;把year的值转换为整数，因此我们可以在视图函数中直接对year变量进行数学计算:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('goback/&lt;int:year&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go_back</span><span class="params">(year)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Welcome to %d!&lt;/p&gt;'</span> % (<span class="number">2018</span> - year)</span><br></pre></td></tr></table></figure>
+<p>在用法上唯一特别的是any转换器，你需要在转换器后添加括号来给出可选值，即“&lt;any（value1，value2，…）：变量名&gt;”，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/colors/&lt;any(blue, white, red):color&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">three_colors</span><span class="params">(color)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Love is patient and kind. Love is not jealous or boastful or proud or rude.&lt;/p&gt;'</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-2-4-请求钩子"><a href="#1-2-4-请求钩子" class="headerlink" title="1.2.4　请求钩子"></a>1.2.4　请求钩子</h4><p>有时我们需要对请求进行预处理（preprocessing）和后处理（postprocessing），这时可以使用Flask提供的一些请求钩子（Hook），它们可以用来注册在请求处理的不同阶段执行的处理函数（或称为回调函数，即Callback）。</p>
+<p><img src="/2018/11/09/flask与http/1013638702.jpg" alt=""></p>
+<p><code>after_request钩子和after_this_request钩子必须接收一个响应类对象作为参数，并且返回同一个或更新后的响应对象。</code></p>
+<h3 id="1-3-HTTP响应"><a href="#1-3-HTTP响应" class="headerlink" title="1.3　HTTP响应"></a>1.3　HTTP响应</h3><p>在Flask程序中，客户端发出的请求触发相应的视图函数，获取返回值会作为响应的主体，最后生成完整的响应，即响应报文。</p>
+<h4 id="1-3-1-响应报文"><a href="#1-3-1-响应报文" class="headerlink" title="1.3.1　响应报文"></a>1.3.1　响应报文</h4><p>响应报文主要由协议版本、状态码（status code）、原因短语（reason phrase）、响应首部和响应主体组成。</p>
+<p><img src="/2018/11/09/flask与http/1013638996.jpg" alt=""></p>
+<p>响应报文的首部包含一些关于响应和服务器的信息，这些内容由Flask生成，而我们在视图函数中返回的内容即为响应报文中的主体内容。浏览器接收到响应后，会把返回的响应主体解析并显示在浏览器窗口上。<br>​    HTTP状态码用来表示请求处理的结果，下图是常见的几种状态码和相应的原因短语。</p>
+<p><img src="/2018/11/09/flask与http/1013639037.jpg" alt=""></p>
+<h4 id="1-3-2-在Flask中生成响应"><a href="#1-3-2-在Flask中生成响应" class="headerlink" title="1.3.2    在Flask中生成响应"></a>1.3.2    在Flask中生成响应</h4><p>响应在Flask中使用Response对象表示，响应报文中的大部分内容由服务器处理，大多数情况下，我们只负责返回主体内容。</p>
+<p>Flask会先判断是否可以找到与请求URL相匹配的路由，如果没有则返回404响应。如果找到，则调用对应的视图函数，视图函数的返回值构成了响应报文的主体内容，正确返回时状态码默认为200。Flask会调用make_response()方法将视图函数返回值转换为响应对象。<br>完整地说，视图函数可以返回最多由三个元素组成的元组：响应主体、状态码、首部字段。其中首部字段可以为字典，或是两元素元组组成的列表。<br>​    比如，普通的响应可以只包含主体内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/hello')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, Flask!&lt;/h1&gt;‘</span></span><br></pre></td></tr></table></figure>
+<p>默认的状态码为200，下面指定了不同的状态码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/hello')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Hello, Flask!&lt;/h1&gt;'</span>, <span class="number">201</span></span><br></pre></td></tr></table></figure>
+<p>有时你会想附加或修改某个首部字段。比如，要生成状态码为3XX的重定向响应，需要将首部中的Location字段设置为重定向的目标URL：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/hello')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>, <span class="number">302</span>, &#123;<span class="string">'Location'</span>, <span class="string">'http://www.example.com'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>1.重定向</p>
+<p>当你访问一个URL时，页面加载后跳转到另一个URL，这种行为被称之为重定向。</p>
+<p>对于重定向这一类特殊响应，Flask提供了一些辅助函数。除了像前面那样手动生成302响应，我们可以使用Flask提供的redirect()函数来生成重定向响应，重定向的目标URL作为第一个参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, redirect</span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="meta">@app.route('/hello')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">'http://www.example.com'</span>)</span><br></pre></td></tr></table></figure>
+<p><code>使用redirect()函数时，默认的状态码为302，即临时重定向。如果你想修改状态码，可以在redirect()函数中作为第二个参数或使用code关键字传入。</code><br>​    如果要在程序内重定向到其他视图，那么只需在redirect()函数中使用url_for()函数生成目标URL即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, redirect, url_for </span><br><span class="line">...</span><br><span class="line"><span class="meta">@app.route('/hi')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> redierct(url_for(<span class="string">'hello'</span>))  <span class="comment"># 重定向到/hello</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/hello')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>2.错误响应</p>
+<p>大多数情况下，Flask会自动处理常见的错误响应。HTTP错误对应的异常类在Werkzeug的werkzeug.exceptions模块中定义，抛出这些异常即可返回对应的错误响应。如果你想手动返回错误响应，更方便的方法是使用Flask提供的abort()函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, abort</span><br><span class="line">...</span><br><span class="line"><span class="meta">@app.route('/404')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">not_found</span><span class="params">()</span>:</span></span><br><span class="line">    abort(<span class="number">404</span>)</span><br></pre></td></tr></table></figure>
+<p><code>abort()函数前不需要使用return语句，但一旦abort()函数被调用，abort()函数之后的代码将不会被执行。</code></p>
+<h4 id="1-3-3-响应格式"><a href="#1-3-3-响应格式" class="headerlink" title="1.3.3    响应格式"></a>1.3.3    响应格式</h4><p>在HTTP响应中，数据可以通过多种格式传输。大多数情况下，我们会使用HTML格式，这也是Flask中的默认设置。在特定的情况下，我们也会使用其他格式。不同的响应数据格式需要设置不同的MIME类型，MIME类型在首部的Content-Type字段中定义，一般的格式为“类型名/子类型名”，其中的子类型名一般为文件扩展名。以默认的HTML类型为例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/html; charset=utf<span class="number">-8</span></span><br></pre></td></tr></table></figure>
+<p>如果你想使用其他MIME类型，可以通过Flask提供的make_response()方法生成响应对象，传入响应的主体作为参数，然后使用响应对象的mimetype属性设置MIME类型，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> make_response</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/foo')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    response = make_response(<span class="string">'Hello, World!'</span>)</span><br><span class="line">    response.mimetype = <span class="string">'text/plain'</span></span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p>1.JSON</p>
+<p>MIME类型：：application/json</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"note"</span>:&#123;</span><br><span class="line">        <span class="string">"to"</span>:<span class="string">"Peter"</span>,</span><br><span class="line">        <span class="string">"from"</span>:<span class="string">"Jane"</span>,</span><br><span class="line">        <span class="string">"heading"</span>:<span class="string">"Remider"</span>,</span><br><span class="line">        <span class="string">"body"</span>:<span class="string">"Don't forget the party!"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JSON（<a href="http://json.org/）指JavaScript" target="_blank" rel="noopener">http://json.org/）指JavaScript</a> Object Notation（JavaScript对象表示法），是一种流行的、轻量的数据交换格式。</p>
+<p>JSON的结构基于“键值对的集合”和“有序的值列表”，这两种数据结构类似Python中的字典（dictionary）和列表（list）。正是因为这种通用的数据结构，使得JSON在同样基于这些结构的编程语言之间交换成为可能。</p>
+<p>Flask通过引入Python标准库中的json模块（或simplejson，如果可用）为程序提供了JSON支持。你可以直接从Flask中导入json对象，然后调用dumps()方法将字典、列表或元组序列化（serialize）为JSON字符串，再使用前面介绍的方法修改MIME类型，即可返回JSON响应：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span>  flask <span class="keyword">import</span> Flask, make_response, json</span><br><span class="line">...</span><br><span class="line"><span class="meta">@app.route('/foo')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'name'</span>:<span class="string">'Grey Li'</span>,</span><br><span class="line">        <span class="string">'gender'</span>:<span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = make_response(json.dumps(data))</span><br><span class="line">    response.mimetype = <span class="string">'application/json'</span></span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p>不过我们一般并不直接使用json模块的dumps()、load()等方法，因为Flask通过包装这些方法提供了更方便的jsonify()函数。借助jsonify()函数，我们仅需要传入数据或参数，它会对我们传入的参数进行序列化，转换成JSON字符串作为响应的主体，然后生成一个响应对象，并且设置正确的MIME类型。使用jsonify函数可以将前面的例子简化为这种形式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> jsonify</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/foo')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(name=<span class="string">'Grey Li'</span>, gender=<span class="string">'male'</span>)</span><br></pre></td></tr></table></figure>
+<p>jsonify()函数接收多种形式的参数。你既可以传入普通参数，也可以传入关键字参数。如果你想要更直观一点，也可以像使用dumps()方法一样传入字典、列表或元组，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> jsonify</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/foo')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(&#123;name: <span class="string">'Grey Li'</span>, gender: <span class="string">'male'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>上面两种形式的返回值是相同的，都会生成下面的JSON字符串：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'&#123;"gender": "male", "name": "Grey Li"&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>另外，jsonify()函数默认生成200响应，你也可以通过附加状态码来自定义响应类型，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/foo')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(message=<span class="string">'Error!'</span>), <span class="number">500</span></span><br></pre></td></tr></table></figure>
+<p><code>Flask中使用request.get_json()方法和request.json属性，获取请求中的JSON数据。</code></p>
+<h4 id="1-3-4-Cookie"><a href="#1-3-4-Cookie" class="headerlink" title="1.3.4    Cookie"></a>1.3.4    Cookie</h4><p>HTTP是无状态（stateless）协议。也就是说，在一次请求响应结束后，服务器不会留下任何关于对方状态的信息。但是对于某些Web程序来说，客户端的某些信息又必须被记住，比如用户的登录状态，这样才可以根据用户的状态来返回不同的响应。为了解决这类问题，就有了Cookie技术。Cookie技术通过在请求和响应报文中添加Cookie数据来保存客户端的状态信息。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/09/flask与http/" data-id="cjoa5c6nf0002lql7ngr9ksb5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/27/Flask-Web/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Flask Web</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/09/flask与http/">flask与http</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/27/Flask-Web/">Flask Web</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/16/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
